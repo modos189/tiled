@@ -24,6 +24,8 @@
 #include "map.h"
 #include "tiled.h"
 
+#include <QDir>
+#include <QJsonObject>
 #include <QSharedData>
 #include <QString>
 #include <QVector>
@@ -53,7 +55,7 @@ public:
     TileStamp(const TileStamp &other);
     TileStamp operator=(const TileStamp &other);
 
-    bool operator==(const TileStamp &other);
+    bool operator==(const TileStamp &other) const;
 
     ~TileStamp();
 
@@ -77,6 +79,11 @@ public:
 
     TileStamp flipped(FlipDirection direction) const;
     TileStamp rotated(RotateDirection direction) const;
+
+    QJsonObject toJson(const QDir &dir) const;
+
+    static TileStamp fromJson(const QJsonObject &json,
+                              const QDir &mapDir);
 
 private:
     QExplicitlySharedDataPointer<TileStampData> d;
